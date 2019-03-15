@@ -55,6 +55,8 @@ coverage.xml
 *.log
 local_settings.py
 db.sqlite3
+media/
+static/
 
 # Flask stuff:
 instance/
@@ -107,4 +109,4 @@ venv.bak/
 .idea/
 
 # vscode
-./vscode
+.vscode/
