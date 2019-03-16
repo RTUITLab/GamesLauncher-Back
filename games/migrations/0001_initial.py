@@ -20,9 +20,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=200, unique=True)),
-                ('logo', models.ImageField(upload_to=games.storage.upload_logo)),
+                ('logo', models.ImageField(upload_to=games.storage.upload_file)),
                 ('version', models.CharField(max_length=10)),
-                ('file', models.FileField(storage=games.storage.OverwriteStorage(), upload_to=games.storage.upload_game,
+                ('file', models.FileField(storage=games.storage.OverwriteStorage(), upload_to=games.storage.upload_file,
                                           validators=[django.core.validators.FileExtensionValidator(
                                               allowed_extensions=['zip'])])),
             ],

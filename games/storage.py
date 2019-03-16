@@ -21,11 +21,7 @@ def compare_dirs(path, filename):
         return False
 
 
-def upload_game(instance, file_name):
-    file_name = "bin_game." + file_name.split(".")[-1]
+def upload_file(instance, file_name):
+    ext = file_name.split(".")[-1]
+    file_name = ("bin." if ext == "zip" else "logo.") + ext
     return os.path.join("games", str(instance.id), str(instance.version), file_name)
-
-
-def upload_logo(instance, file_name):
-    file_name = "logo." + file_name.split(".")[-1]
-    return os.path.join("games", str(instance.id), file_name)
