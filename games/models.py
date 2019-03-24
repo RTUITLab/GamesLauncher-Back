@@ -4,20 +4,20 @@ import uuid
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
-from .storage import OverwriteStorage, upload_file
+from .storage import GameStorage, upload_file
 
 
 class Game(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.CharField(max_length=200, blank=False, unique=True)
-    version = models.CharField(max_length=10, blank=False)
+    name = models.CharField(max_length=200)
+    version = models.CharField(max_length=10)
     logo = models.ImageField(
         upload_to=upload_file,
-        storage=OverwriteStorage()
+        storage=GameStorage()
     )
     file = models.FileField(
         upload_to=upload_file,
-        storage=OverwriteStorage(),
+        storage=GameStorage(),
         validators=[FileExtensionValidator(allowed_extensions=["zip"])],
     )
 
