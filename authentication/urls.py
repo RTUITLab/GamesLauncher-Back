@@ -1,13 +1,9 @@
-from django.urls import path
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenVerifyView,
-    TokenRefreshView,
-)
+from django.conf.urls import url
+from .views import CreateUserAPIView, authenticate_user
 
-# dummy auth
+
 urlpatterns = [
-    path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    url(r'^create/$', CreateUserAPIView.as_view()),
+    # url(r'^update/$', UserRetrieveUpdateAPIView.as_view()),
+    url(r'^login/$', authenticate_user)
 ]
