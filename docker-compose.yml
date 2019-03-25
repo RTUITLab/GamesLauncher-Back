@@ -14,9 +14,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres
-    container_name: gamecenter-backend-db
-    ports:
-      - "5432:5432"
+    image: postgres:11.2-alpine
+    container_name: gamecenter-db
     env_file:
       - .env
