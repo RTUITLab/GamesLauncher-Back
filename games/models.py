@@ -22,13 +22,13 @@ class Game(models.Model):
     )
 
     def delete(self, *args, **kwargs):
-        if os.path.isdir(self.id):
-            os.remove(self.id)
+        if os.path.isdir(str(self.id)):
+            os.remove(str(self.id))
         super(Game, self).delete(*args, **kwargs)
 
     def __str__(self):
         return "{}-{}".format(self.name, self.version)
 
     class Meta:
-        unique_together = ("name", "version")
-        ordering = ("id", "name", "version",)
+        unique_together = ("name", "version",)
+        ordering = ("name", "version",)

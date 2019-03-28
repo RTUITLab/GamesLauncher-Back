@@ -10,5 +10,6 @@ class IsLoader(BasePermission):
         return bool(
             request.user and
             request.user.is_authenticated and
+            request.user.is_staff and
             request.method == "POST"
         )
