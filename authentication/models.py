@@ -1,9 +1,9 @@
 from uuid import uuid4
 
-from django.contrib.auth.models import (
-    AbstractBaseUser, PermissionsMixin, BaseUserManager
-)
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
@@ -21,6 +21,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_user(self, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(username, password, **extra_fields)
+
     def create_superuser(self, username, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -33,14 +38,49 @@ class UserManager(BaseUserManager):
         return self._create_user(username, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
+    """
+    Default user for authorization and statistics collection.
+
+    Username and password are required. Other fields are optional.
+    """
     id = models.UUIDField(primary_key=True, default=uuid4)
-    name = models.CharField(max_length=120, unique=True)
+    username = models.CharField(
+        _('username'),
+        max_length=150,
+        unique=True,
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[UnicodeUsernameValidator()],
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
+    is_superuser = models.BooleanField(
+        _('superuser status'),
+        default=False,
+        help_text=_(
+            'Designates that this user has all permissions without '
+            'explicitly assigning them.'
+        ),
+    )
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )
 
     objects = UserManager()
 
-    USERNAME_FIELD = "name"
+    USERNAME_FIELD = 'username'
 
-    def save(self, *args, **kwargs):
-        super(User, self).save(*args, **kwargs)
-        return self
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')

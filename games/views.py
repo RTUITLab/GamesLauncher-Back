@@ -2,7 +2,7 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 
 from authentication.permissions import IsLoader
 from .serializers import Game, GameSerializer
@@ -11,7 +11,8 @@ from .serializers import Game, GameSerializer
 class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser, IsLoader]
+    permission_classes = (IsAdminUser | IsLoader,)
+    filterset_fields = ("id", "name", "version",)
 
 
 @api_view(["GET"])

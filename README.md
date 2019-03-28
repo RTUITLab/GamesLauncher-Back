@@ -1,15 +1,13 @@
 # GameCenter
-### Start server
+### Deploy
 
-Install [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
+1. Install [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
 
-Rename `.env.example` to `.env` and change default values. 
+2. Rename `.env.example` to `.env` and change default values. 
 If you want connect your postgres db fill  necessary variables in `.env`. 
 Or you you can change `.env` file in `docker-compose.yml` on your own.
 
-Run `docker-compose -f .\docker-compose.yml up`
-
-Add `-d` in command for background run
+3. Run `docker-compose up`
 
 ------------
 
@@ -22,7 +20,10 @@ Add `-d` in command for background run
 
 3. Create venv: `python -m virtualenv env`
 
-4. Activate venv: `source venv/bin/activate`   or    `.\venv\Scripts\activate`   for Windows Powershell
+4. Activate venv:
+
+    Linux:`source venv/bin/activate`   
+    Windows Powershell:  `.\venv\Scripts\activate` 
 
 5. Install poetry: `pip install poetry`  
 

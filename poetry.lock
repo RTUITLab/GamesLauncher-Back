@@ -104,6 +104,25 @@ six = ">=1.2"
 
 [[package]]
 category = "main"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+name = "django-filter"
+optional = false
+python-versions = ">=3.4"
+version = "2.1.0"
+
+[package.dependencies]
+Django = ">=1.11"
+
+[[package]]
+category = "main"
+description = "A filterset and filters."
+name = "django-filters"
+optional = false
+python-versions = "*"
+version = "0.2.1"
+
+[[package]]
+category = "main"
 description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
@@ -257,7 +276,7 @@ python-versions = "*"
 version = "0.10.0"
 
 [metadata]
-content-hash = "6601e6846e286075f6d60cf9cd39e0332726fcaecad05fe7bec0f3d15848c9df"
+content-hash = "ea9cb1b61e32579f8297038d113f46fc470a976c1547d9d87ab04c0265962de3"
 python-versions = "^3.6"
 
 [metadata.hashes]
@@ -272,6 +291,8 @@ django = ["275bec66fd2588dd517ada59b8bfb23d4a9abc5a362349139ddda3c7ff6f5ade", "9
 django-cors-headers = ["1ccedec2973087be9d73f96d58c4f6660c823efc0385581e13efb77f060d0e02", "fb44f6b9f10de847919305c3f0d38fcfbadfe0dd5cf1c866f37df66ad0dda1bb"]
 django-dotenv = ["3812bb0f4876cf31f902aad140f0645e120e51ee30eb7c40c22050f58a0e4adb", "a9b1b40a70bd321acd231926acedb9bd2c5e873e33a1873b34a7276d196a765e"]
 django-extensions = ["109004f80b6f45ad1f56addaa59debca91d94aa0dc1cb19678b9364b4fe9b6f4", "307766e5e6c1caffe76c5d99239d8115d14ae3f7cab2cd991fcffd763dad904b"]
+django-filter = ["3dafb7d2810790498895c22a1f31b2375795910680ac9c1432821cbedb1e176d", "a3014de317bef0cd43075a0f08dfa1d319a7ccc5733c3901fb860da70b0dda68"]
+django-filters = ["1a9799a41106dc53ed894e952a24e8dee9b4fb37f010f22d178c09c90c61d711"]
 djangorestframework = ["8a435df9007c8b7d8e69a21ef06650e3c0cbe0d4b09e55dd1bd74c89a75a9fcd", "f7a266260d656e1cf4ca54d7a7349609dc8af4fe2590edd0ecd7d7643ea94a17"]
 djangorestframework-camel-case = ["4bb2e41fb8a5d3745e20c5ee0842ebc6f6bac602b3286c3dd913b01760a2abb0", "5b957f9cf16730f153a0ab4add9ff17fb41b7fceaa7edad29b0536b515bffd16"]
 djangorestframework-simplejwt = ["9796dd89086999993475a25f2a8ba39b56a5b372cf9b2475d9b29afcf7737be6", "ce118a3f39499de980aeffef020f421b4689bc8cc14ad236b06a7f6f3d137784"]
