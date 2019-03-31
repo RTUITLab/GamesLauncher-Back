@@ -20,6 +20,7 @@ class Game(models.Model):
         storage=GameStorage(),
         validators=[FileExtensionValidator(allowed_extensions=["zip"])],
     )
+    created = models.DateTimeField(input_formats = ['%Y-%m-%d %H:%M:%S'])
 
     def delete(self, *args, **kwargs):
         if os.path.isdir(str(self.id)):
@@ -32,3 +33,4 @@ class Game(models.Model):
     class Meta:
         unique_together = ("name", "version",)
         ordering = ("name", "version",)
+        get_latest_by = 'created'

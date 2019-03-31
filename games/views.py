@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import StreamingHttpResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
@@ -9,7 +10,7 @@ from .serializers import Game, GameSerializer
 
 
 class GameViewSet(viewsets.ModelViewSet):
-    queryset = Game.objects.all()
+    queryset = Game.objects.all().order_by('created')
     serializer_class = GameSerializer
     permission_classes = (IsAdminUser | IsLoader,)
     filterset_fields = ("id", "name", "version",)
@@ -18,7 +19,10 @@ class GameViewSet(viewsets.ModelViewSet):
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def download_game_view(request, pk, version):
+
     print("downloading game...", version)
+    if version == 'latest':
+        version = queryset.latest()
 
     game = get_object_or_404(Game, pk=pk, version=version)
 
