@@ -1,0 +1,14 @@
+.env*
+.git*
+.idea*
+.idea/*
+.vscode/*
+static
+.dockerignore
+docker*
+Dockerfile*
+LICENSE
+README*
+db.sqlite*
+**/__pycache__
+**/.pytest_cache

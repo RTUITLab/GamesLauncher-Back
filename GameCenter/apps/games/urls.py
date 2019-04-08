@@ -1,10 +1,10 @@
-from django.urls import re_path
+from django.urls import path
 from rest_framework import routers
 
-from games import views
+from GameCenter.apps.games import views
 
 urlpatterns = [
-    re_path(r"^games/<uuid:pk>/download-<str:version>/$", views.download_game_view)
+    path("games/download/<str:name>/<str:version>/<str:filename>/", views.download_game_view),
 ]
 
 router = routers.DefaultRouter()
