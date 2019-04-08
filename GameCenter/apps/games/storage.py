@@ -11,7 +11,7 @@ class GameStorage(FileSystemStorage):
         return name
 
 
-def upload_file(instance, file_name):
+def upload_file_to(instance, file_name):
     ext = file_name.split(".")[-1]
     file_name = ("bin." if ext == "zip" else "logo.") + ext
     return os.path.join("games", str(instance.id), str(instance.version), file_name)

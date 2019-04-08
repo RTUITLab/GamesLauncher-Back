@@ -16,6 +16,6 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path("api/", include("games.urls")),
-    path("api/auth/", include("authentication.urls")),
+    path("api/", include("GameCenter.apps.games.urls")),
+    path("api/auth/", include("GameCenter.apps.authentication.urls")),
 ]

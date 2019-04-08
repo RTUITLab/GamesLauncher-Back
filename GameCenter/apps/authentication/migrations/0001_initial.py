@@ -4,7 +4,7 @@ import uuid
 
 from django.db import migrations, models
 
-import authentication.models
+from GameCenter.apps.authentication.models import UserManager
 
 
 class Migration(migrations.Migration):
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
             managers=[
-                ('objects', authentication.models.UserManager()),
+                ('objects', UserManager()),
             ],
         ),
     ]

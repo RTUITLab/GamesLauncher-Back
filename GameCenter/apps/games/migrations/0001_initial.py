@@ -5,7 +5,7 @@ import uuid
 import django.core.validators
 from django.db import migrations, models
 
-import games.storage
+from GameCenter.apps.games.storage import upload_file_to, GameStorage
 
 
 class Migration(migrations.Migration):
@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('version', models.CharField(max_length=10)),
-                ('logo', models.ImageField(storage=games.storage.GameStorage(), upload_to=games.storage.upload_file)),
-                ('file', models.FileField(storage=games.storage.GameStorage(), upload_to=games.storage.upload_file,
+                ('logo', models.ImageField(storage=GameStorage(), upload_to=upload_file_to)),
+                ('file', models.FileField(storage=GameStorage(), upload_to=upload_file_to,
                                           validators=[django.core.validators.FileExtensionValidator(
                                               allowed_extensions=['zip'])])),
             ],

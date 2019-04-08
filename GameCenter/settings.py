@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_filters",
     "rest_framework",
-    "authentication",
-    "games",
+    "GameCenter.apps.authentication",
+    "GameCenter.apps.games",
 ]
 
 MIDDLEWARE = [
@@ -116,11 +116,6 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
     )
 }
-
-if DEBUG:
-    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append(
-        "rest_framework.renderers.BrowsableAPIRenderer"
-    )
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=30),
