@@ -4,8 +4,7 @@ from rest_framework import routers
 from GameCenter.apps.games import views
 
 urlpatterns = [
-    path("games/<str:name>/<str:version>/logo/", views.download_logo_view),
-    path("games/<str:name>/<str:version>/bin/", views.download_game_view),
+    path("games/download/<str:name>/<str:version>/<str:filename>/", views.download_game_view),
 ]
 
 router = routers.DefaultRouter()

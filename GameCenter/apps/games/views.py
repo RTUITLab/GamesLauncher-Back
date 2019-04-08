@@ -1,5 +1,4 @@
-from django.http import FileResponse
-from django.shortcuts import get_object_or_404
+from django.http import FileResponse, Http404
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAdminUser
@@ -16,12 +15,18 @@ class GameViewSet(viewsets.ModelViewSet):
 
 
 @api_view(["GET"])
-def download_game_view(request, name, version):
-    game = get_object_or_404(Game, name=name, version=version)
-    return FileResponse(open(game.file.path, "rb"))
+def download_game_view(request, name: str, version: str, filename: str):
+    if filename != "bin" and filename != "logo":
+        raise Http404()
 
+    try:
+        games = Game.objects.filter(name=name)
+        if version == "latest":
+            game = games.latest()
+        else:
+            game = games.get(version=version)
+    except:
+        raise Http404()
 
-@api_view(["GET"])
-def download_logo_view(request, name, version):
-    game = get_object_or_404(Game, name=name, version=version)
-    return FileResponse(open(game.logo.path, "rb"))
+    filepath = (game.file.path, game.logo.path)[filename == "logo"]
+    return FileResponse(open(filepath, "rb"))
