@@ -4,6 +4,9 @@
 .idea/*
 .vscode/*
 static
+media/
+venv/
+postman/
 .dockerignore
 docker*
 Dockerfile*
