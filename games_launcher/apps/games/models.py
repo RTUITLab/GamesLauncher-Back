@@ -11,10 +11,7 @@ class Game(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     version = models.CharField(max_length=10)
-    logo = models.ImageField(
-        upload_to=upload_file_to,
-        storage=GameStorage()
-    )
+    logo = models.ImageField(upload_to=upload_file_to, storage=GameStorage())
     file = models.FileField(
         upload_to=upload_file_to,
         storage=GameStorage(),
@@ -31,6 +28,6 @@ class Game(models.Model):
         return "{}-{}".format(self.name, self.version)
 
     class Meta:
-        unique_together = ("name", "version",)
-        ordering = ("name", "version",)
+        unique_together = ("name", "version")
+        ordering = ("name", "version")
         get_latest_by = "created"

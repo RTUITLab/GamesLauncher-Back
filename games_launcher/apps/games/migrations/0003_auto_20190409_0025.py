@@ -4,18 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('games', '0002_auto_20190328_0857'),
-    ]
+    dependencies = [("games", "0002_auto_20190328_0857")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='game',
-            options={'get_latest_by': 'created', 'ordering': ('name', 'version')},
+            name="game",
+            options={"get_latest_by": "created", "ordering": ("name", "version")},
         ),
         migrations.AddField(
-            model_name='game',
-            name='created',
+            model_name="game",
+            name="created",
             field=models.DateTimeField(auto_now_add=True),
             preserve_default=False,
         ),
