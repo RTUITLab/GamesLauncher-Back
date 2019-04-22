@@ -3,15 +3,15 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAdminUser
 
-from GameCenter.apps.authentication.permissions import IsLoader
+from games_launcher.apps.authentication.permissions import IsUploader
 from .serializers import Game, GameSerializer
 
 
 class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
-    permission_classes = (IsAdminUser | IsLoader,)
-    filterset_fields = ("id", "name", "version",)
+    permission_classes = (IsAdminUser | IsUploader,)
+    filterset_fields = ("id", "name", "version")
 
 
 @api_view(["GET"])
