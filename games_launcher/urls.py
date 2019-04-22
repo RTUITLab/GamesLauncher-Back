@@ -48,9 +48,6 @@ urlpatterns = [
         r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
     ),
     path("", RedirectView.as_view(pattern_name="schema-redoc")),
-]
-
-urlpatterns = [
     path("api/", include("games_launcher.apps.games.urls")),
     path("api/auth/", include("games_launcher.apps.authentication.urls")),
 ]

@@ -11,11 +11,13 @@ class Game(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     version = models.CharField(max_length=10)
-    logo = models.ImageField(upload_to=upload_file_to, storage=GameStorage())
+    logo = models.ImageField(upload_to=upload_file_to, storage=GameStorage(), null=True)
     file = models.FileField(
+        max_length=255,
         upload_to=upload_file_to,
         storage=GameStorage(),
         validators=[FileExtensionValidator(allowed_extensions=["zip"])],
+        null=True
     )
     created = models.DateTimeField(auto_now_add=True)
 

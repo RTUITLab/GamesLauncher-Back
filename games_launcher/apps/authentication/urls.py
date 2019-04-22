@@ -14,8 +14,8 @@ router.register("roles", RoleViewSet)
 router.register("users", UserViewSet)
 
 urlpatterns = [
-    path("login/", TokenView.as_view(), name="token_access"),
-    path("login/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("token/", TokenView.as_view(), name="token_access"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("profile/me/", get_profile_view, name="profile"),
 ]
 

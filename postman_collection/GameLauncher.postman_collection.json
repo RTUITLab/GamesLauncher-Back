@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "be919a37-7dee-4369-8c98-f19143cc8731",
+    "_postman_id": "b04456de-2752-4841-b7a2-a2fd5eae9089",
     "name": "GameLauncher",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -55,13 +55,13 @@
               "raw": "{\n\t\"username\": \"{{admin_username}}\",\n\t\"password\": \"{{admin_password}}\"\n}"
             },
             "url": {
-              "raw": "{{apiUrl}}/auth/login/",
+              "raw": "{{apiUrl}}/auth/token/",
               "host": [
                 "{{apiUrl}}"
               ],
               "path": [
                 "auth",
-                "login",
+                "token",
                 ""
               ]
             }
@@ -172,13 +172,13 @@
               "raw": "{\n\t    \"refresh\": \"{{refresh_token}}\"\n}"
             },
             "url": {
-              "raw": "{{apiUrl}}/auth/login/refresh/",
+              "raw": "{{apiUrl}}/auth/token/refresh/",
               "host": [
                 "{{apiUrl}}"
               ],
               "path": [
                 "auth",
-                "login",
+                "token",
                 "refresh",
                 ""
               ]
@@ -252,6 +252,28 @@
               "body": "{\n    \"access\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTUzNzQxODExLCJqdGkiOiJhNjU2ZWY5MGEyN2Q0YzgzYWNmZGRhYzRkNWU1MjlkMyIsInVzZXJfaWQiOiJkZDdjYzEyOS04NDliLTQ0NjgtYTQ5Yy0zNmYyNWMzOWZiOGUifQ.FdRjcAiwB8CQXZYaf1Z7J5l-MtwfNv1uZeDr1ZcyR7g\"\n}"
             }
           ]
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "85ecfad9-7d28-4060-bf66-949dfe3b3e0c",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "b0ddd6e3-ae89-4950-9bb8-4186ef4afaee",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
         }
       ]
     },
@@ -394,7 +416,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"ivan\",\n    \"first_name\": \"Ваня\",\n    \"second_name\": \"Иванович\",\n    \"last_name\": \"Иванов\",\n    \"roles\": [\n        \"uploader\"\n    ]\n}"
+              "raw": "{\n    \"username\": \"admin\",\n    \"first_name\": \"Иван\",\n    \"second_name\": \"Иванович\",\n    \"last_name\": \"Иванов\",\n    \"roles\": [\n        \"admin\"\n    ]\n}"
             },
             "url": {
               "raw": "{{apiUrl}}/auth/users/{{user_id}}/",
@@ -453,16 +475,6 @@
         {
           "name": "Get all games",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{access_token}}",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "GET",
             "header": [],
             "body": {
@@ -470,12 +482,11 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{domain}}/api/games/",
+              "raw": "{{apiUrl}}/games/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
                 ""
               ]
@@ -543,6 +554,34 @@
         },
         {
           "name": "Create game",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "84ce9208-c04e-4534-ad4f-87ea79aff4a7",
+                "exec": [
+                  "var responseJSON = JSON.parse(responseBody);",
+                  "",
+                  "tests[\"response contains 'id' property\"] = responseJSON.hasOwnProperty('id');",
+                  "",
+                  "if (tests[\"response contains 'id' property\"]) {",
+                  "    pm.globals.set(\"game_id\", responseJSON.id);",
+                  "}",
+                  "",
+                  "tests[\"response contains 'name' property\"] = responseJSON.hasOwnProperty('name');",
+                  "if (tests[\"response contains 'name' property\"]) {",
+                  "    pm.globals.set(\"game_name\", responseJSON.name);",
+                  "}",
+                  "tests[\"response contains 'version' property\"] = responseJSON.hasOwnProperty('version');",
+                  "if (tests[\"response contains 'version' property\"]) {",
+                  "    pm.globals.set(\"game_version\", responseJSON.version);",
+                  "}",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "bearer",
@@ -582,7 +621,7 @@
                 },
                 {
                   "key": "version",
-                  "value": "0.0.2",
+                  "value": "0.0.3",
                   "contentType": "application/json",
                   "description": "version of the game",
                   "type": "text"
@@ -592,24 +631,25 @@
                   "contentType": "application/zip",
                   "description": "game bin",
                   "type": "file",
-                  "src": ""
+                  "src": "",
+                  "disabled": true
                 },
                 {
                   "key": "logo",
                   "contentType": "image/png",
                   "description": "logo of game",
                   "type": "file",
-                  "src": ""
+                  "src": "",
+                  "disabled": true
                 }
               ]
             },
             "url": {
-              "raw": "{{domain}}/api/games/",
+              "raw": "{{apiUrl}}/games/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
                 ""
               ]
@@ -749,7 +789,7 @@
                 },
                 {
                   "key": "version",
-                  "value": "0.0.1",
+                  "value": "0.1.3",
                   "contentType": "application/json",
                   "description": "version of the game",
                   "type": "text"
@@ -759,26 +799,27 @@
                   "contentType": "application/zip",
                   "description": "game bin",
                   "type": "file",
-                  "src": ""
+                  "src": "",
+                  "disabled": true
                 },
                 {
                   "key": "logo",
                   "contentType": "image/png",
                   "description": "logo of game",
                   "type": "file",
-                  "src": ""
+                  "src": "",
+                  "disabled": true
                 }
               ]
             },
             "url": {
-              "raw": "{{domain}}/api/games/{{game_uuid}}/",
+              "raw": "{{apiUrl}}/games/{{game_id}}/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
-                "{{game_uuid}}",
+                "{{game_id}}",
                 ""
               ]
             }
@@ -884,7 +925,7 @@
           ]
         },
         {
-          "name": "Delete game",
+          "name": "Upload game",
           "request": {
             "auth": {
               "type": "bearer",
@@ -896,8 +937,13 @@
                 }
               ]
             },
-            "method": "DELETE",
+            "method": "PATCH",
             "header": [
+              {
+                "key": "Authorization",
+                "type": "text",
+                "value": "Bearer: jwt"
+              },
               {
                 "key": "Content-Type",
                 "name": "Content-Type",
@@ -905,26 +951,45 @@
                 "type": "text"
               }
             ],
-            "body": {},
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "logo",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
             "url": {
-              "raw": "{{domain}}/api/games/{{game_uuid}}/",
+              "raw": "{{apiUrl}}/games/{{game_id}}/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
-                "{{game_uuid}}",
+                "{{game_id}}",
                 ""
               ]
-            }
+            },
+            "description": "Update file and logo or only one of them."
           },
           "response": [
             {
-              "name": "Delete game",
+              "name": "Upload game",
               "originalRequest": {
-                "method": "DELETE",
+                "method": "PATCH",
                 "header": [
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "Bearer: jwt"
+                  },
                   {
                     "key": "Content-Type",
                     "name": "Content-Type",
@@ -936,9 +1001,12 @@
                   "mode": "formdata",
                   "formdata": [
                     {
-                      "key": "Authorization",
-                      "value": "Bearer JWT",
-                      "type": "text"
+                      "key": "file",
+                      "type": "file"
+                    },
+                    {
+                      "key": "logo",
+                      "type": "file"
                     }
                   ]
                 },
@@ -955,17 +1023,21 @@
                   ]
                 }
               },
-              "status": "No Content",
-              "code": 204,
-              "_postman_previewlanguage": "plain",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Date",
-                  "value": "Thu, 28 Mar 2019 05:31:39 GMT"
+                  "value": "Thu, 28 Mar 2019 05:59:16 GMT"
                 },
                 {
                   "key": "Server",
                   "value": "WSGIServer/0.2 CPython/3.7.2"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
                 },
                 {
                   "key": "Vary",
@@ -981,11 +1053,11 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "0"
+                  "value": "268"
                 }
               ],
               "cookie": [],
-              "body": ""
+              "body": "{\n    \"id\": \"80a0b683-49d4-4ade-a586-9602a1266f8f\",\n    \"name\": \"Tuturu\",\n    \"logo\": \"http://localhost:8000/media/games/80a0b683-49d4-4ade-a586-9602a1266f8f/0.0.1/logo.jpg\",\n    \"file\": \"http://localhost:8000/media/games/80a0b683-49d4-4ade-a586-9602a1266f8f/0.0.1/bin.zip\",\n    \"version\": \"0.0.1\"\n}"
             }
           ]
         },
@@ -1015,12 +1087,11 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{domain}}/api/games/download/{{game_name}}/{{game_version}}/bin/",
+              "raw": "{{apiUrl}}/games/download/{{game_name}}/{{game_version}}/bin/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
                 "download",
                 "{{game_name}}",
@@ -1123,12 +1194,11 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{domain}}/api/games/download/{{game_name}}/{{game_version}}/logo/",
+              "raw": "{{apiUrl}}/games/download/{{game_name}}/{{game_version}}/logo/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
                 "download",
                 "{{game_name}}",
@@ -1171,7 +1241,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": "",
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Date",
@@ -1228,7 +1298,7 @@
           ]
         },
         {
-          "name": "Upload game",
+          "name": "Delete game",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1240,13 +1310,8 @@
                 }
               ]
             },
-            "method": "PATCH",
+            "method": "DELETE",
             "header": [
-              {
-                "key": "Authorization",
-                "type": "text",
-                "value": "Bearer: jwt"
-              },
               {
                 "key": "Content-Type",
                 "name": "Content-Type",
@@ -1255,45 +1320,27 @@
               }
             ],
             "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "file",
-                  "type": "file",
-                  "src": ""
-                },
-                {
-                  "key": "logo",
-                  "type": "file",
-                  "src": ""
-                }
-              ]
+              "mode": "raw",
+              "raw": ""
             },
             "url": {
-              "raw": "{{domain}}/api/games/{{game_uuid}}/",
+              "raw": "{{apiUrl}}/games/{{game_id}}/",
               "host": [
-                "{{domain}}"
+                "{{apiUrl}}"
               ],
               "path": [
-                "api",
                 "games",
-                "{{game_uuid}}",
+                "{{game_id}}",
                 ""
               ]
-            },
-            "description": "Update file and logo or only one of them."
+            }
           },
           "response": [
             {
-              "name": "Upload game",
+              "name": "Delete game",
               "originalRequest": {
-                "method": "PATCH",
+                "method": "DELETE",
                 "header": [
-                  {
-                    "key": "Authorization",
-                    "type": "text",
-                    "value": "Bearer: jwt"
-                  },
                   {
                     "key": "Content-Type",
                     "name": "Content-Type",
@@ -1305,12 +1352,9 @@
                   "mode": "formdata",
                   "formdata": [
                     {
-                      "key": "file",
-                      "type": "file"
-                    },
-                    {
-                      "key": "logo",
-                      "type": "file"
+                      "key": "Authorization",
+                      "value": "Bearer JWT",
+                      "type": "text"
                     }
                   ]
                 },
@@ -1327,21 +1371,17 @@
                   ]
                 }
               },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
               "header": [
                 {
                   "key": "Date",
-                  "value": "Thu, 28 Mar 2019 05:59:16 GMT"
+                  "value": "Thu, 28 Mar 2019 05:31:39 GMT"
                 },
                 {
                   "key": "Server",
                   "value": "WSGIServer/0.2 CPython/3.7.2"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
                 },
                 {
                   "key": "Vary",
@@ -1357,15 +1397,69 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "268"
+                  "value": "0"
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"id\": \"80a0b683-49d4-4ade-a586-9602a1266f8f\",\n    \"name\": \"Tuturu\",\n    \"logo\": \"http://localhost:8000/media/games/80a0b683-49d4-4ade-a586-9602a1266f8f/0.0.1/logo.jpg\",\n    \"file\": \"http://localhost:8000/media/games/80a0b683-49d4-4ade-a586-9602a1266f8f/0.0.1/bin.zip\",\n    \"version\": \"0.0.1\"\n}"
+              "body": ""
             }
           ]
         }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "524c5661-0e05-41f6-9fca-323fd943eff3",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "ce890489-f11d-48fd-89be-d9e8562401a9",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
       ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "69f84fc2-d162-4632-b7ee-8aad8aa13407",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "2f712b6e-7ac8-4f07-9b6e-f72dc4c23413",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }

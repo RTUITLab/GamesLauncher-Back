@@ -10,8 +10,7 @@ class IsUploader(BasePermission):
         return bool(
             request.user.is_uploader
             and (
-                    request.method == "POST"
-                    or request.method == "PUT"
+                    request.method == "PUT"
                     or request.method == "PATCH"
             )
         )

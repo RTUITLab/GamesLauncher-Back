@@ -134,7 +134,7 @@ SIMPLE_JWT = {
     ),
     "TOKEN_TYPE_CLAIM": "token_type",
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": datetime.timedelta(days=1),
+    "SLIDING_TOKEN_LIFETIME": datetime.timedelta(minutes=120),
     "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=7),
 }
 
